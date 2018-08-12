@@ -5,7 +5,7 @@ process.env.PORT = process.env.PORT || 3000;
 /**
  * Profile
  */
-process.env.PROFILE = process.env.PROFILE || 'dev';
+process.env.PROFILE = process.env.PROFILE || 'prod';
 /**
  * DB
  */
