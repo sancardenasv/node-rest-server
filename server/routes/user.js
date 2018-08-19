@@ -1,11 +1,17 @@
 const express = require('express');
-const User = require('../models/user');
+const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+
+const User = require('../models/user');
+const { validateToken, isUserAdmin } = require('../middlewares/auth');
+
+/** REQUIRE THIS LAST OR IT WILL NOT LET YOU IMPORT OTHERS */
 const _ = require = require('underscore');
 
 const app = express();
 
-app.get('/user', function(req, res) {
+/** List Users */
+app.get('/user', validateToken, (req, res) => {
     let pagination = {
         fromPage: Number(req.query.fromPage) || 0,
         fetch: Number(req.query.fetch) || 5
@@ -34,7 +40,8 @@ app.get('/user', function(req, res) {
         })
 });
 
-app.post('/user', function(req, res) {
+/** Create User */
+app.post('/user', [validateToken, isUserAdmin], function(req, res) {
     let body = req.body;
 
     let user = new User({
@@ -60,7 +67,8 @@ app.post('/user', function(req, res) {
 
 });
 
-app.put('/user/:id', function(req, res) {
+/** Update User */
+app.put('/user/:id', [validateToken, isUserAdmin], function(req, res) {
     let id = req.params.id;
     let body = _.pick(req.body, ['name', 'email', 'img', 'role', 'status']);
 
@@ -79,7 +87,8 @@ app.put('/user/:id', function(req, res) {
     });
 });
 
-app.delete('/user/:id', function(req, res) {
+/** Delete User Logically */
+app.delete('/user/:id', [validateToken, isUserAdmin], function(req, res) {
     let id = req.params.id;
     // Delete fron DB
     /*User.findByIdAndRemove(id, (err, deletedUser) => {

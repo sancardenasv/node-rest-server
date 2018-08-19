@@ -10,7 +10,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // application/json
 app.use(bodyParser.json());
 
-app.use(require('./routes/user.js'))
+/** Routes configuration */
+app.use(require('./routes/index.js'));
 
 
 mongoose.connect(process.env.MONGO_DB_URL, (err, res) => {
