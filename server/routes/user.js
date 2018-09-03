@@ -1,5 +1,5 @@
 const express = require('express');
-const jwt = require('jsonwebtoken');
+// const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
 const User = require('../models/user');
@@ -30,6 +30,13 @@ app.get('/user', validateToken, (req, res) => {
             };
 
             User.count(filters, (err, count) => {
+                if (err) {
+                    return res.status(400).json({
+                        ststus: false,
+                        reason: err
+                    })
+                };
+
                 res.json({
                     status: true,
                     userList,

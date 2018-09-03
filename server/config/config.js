@@ -20,7 +20,7 @@ process.env.MONGO_DB_URL = mongoDBUrl;
 /**
  * Token Expiration time
  */
-process.env.TOKEN_EXPIRATION_TIME = 60 * 60 * 24 * 30;
+process.env.TOKEN_EXPIRATION_TIME = '48h';
 /**
  * Token Seed
  */
