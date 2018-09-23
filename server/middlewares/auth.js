@@ -36,7 +36,29 @@ let isUserAdmin = (req, res, next) => {
     next();
 };
 
+/**
+ * Validate Image Token
+ */
+let validateImageToken = (req, res, next) => {
+    let token = req.query.Authorization ? req.query.Authorization.split(' ')[1] : '';
+
+    jwt.verify(token, process.env.SEED, (err, decoded) => {
+        if (err) {
+            return res.status(401).json({
+                status: false,
+                reason: err
+            });
+        }
+
+        req.user = decoded.user;
+
+        next();
+    });
+
+};
+
 module.exports = {
     validateToken,
-    isUserAdmin
+    isUserAdmin,
+    validateImageToken
 }
